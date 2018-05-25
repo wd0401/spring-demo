@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script  type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script  type="text/javascript"th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<h1>User Info Edit</h1>
+<p th:text="'Hello, ' + ${session.user.username} + '!'" />
+<div class="row " style="padding-top:0 ;height: 40px ">
+    <form class="form-control" style="padding-top: auto" th:action="@{/user/userInfoEdit}"  th:object="${user}" method="post">
+        <div class="col-md-3">
+            <input class="hide" type="text" th:field="*{userId}" value="${user.userId}"/>
+            <label class="control-label"> User Name : <input type="text" th:field="*{username}"
+                                                             value="${user.username}"/> </label>
+            <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</label>
+        </div>
+        <div  class="col-md-3">
+            <label class="control-label"> Password:
+                <input type="password" th:field="*{password}" value="${user.password}"/></label>
+            <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</label>
+        </div>
+        <div  class="col-md-3" >
+            <label class="control-label"> Email:
+                <input type="email" th:field="*{email}" value="${user.email}"/></label>
+            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}">password Error</label>
+        </div>
+        <div class="col-md-2"><input class="btn  btn-primary" type="submit" value="Save"/></div>
+        <div class="col-md-1">
+             <a  class="btn btn-warning" th:href="@{/index}">home</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

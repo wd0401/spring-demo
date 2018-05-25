@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <script  type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script  type="text/javascript"th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+</head>
+<body>
+    <div class="row">
+      <h3 class="" style="margin: auto;     margin-left: 22px">This is demo site home page!
+          <form th:action="@{/logout}" method="post">
+              <div><input type="submit" value="logout.."></div>
+          </form>
+      </h3>
+    </div>
+
+    <div th:if="${session.user == null}">
+        You have been logged out.
+        Please <a th:href="@{/login}">Login</a> Or
+        <a th:href="@{/register}">Register</a>
+    </div>
+
+    <div th:if="${session.user}">
+        Welcome <span th:text="${session.user.username}"/> !
+
+        <a class="btn btn-primary" th:href="@{/user/userInfo}">My Information</a>
+        <a class="btn btn-primary" th:href="@{/user/findAll}">Find All User Information</a>
+    </div>
+</body>
+</html>

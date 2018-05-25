@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <script  type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script  type="text/javascript"th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+
+    <form th:action="@{/register}"  th:object="${user}" method="post">
+        <div>
+            <label> User Name : <input type="text" th:field="*{username}" value="${username}"/> </label>
+            <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</label>
+        </div>
+        <div>
+            <label> Password: <input type="password" th:field="*{password}"/></label>
+            <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</label>
+        </div>
+        <div>
+            <label> Email: <input type="email" id="email" th:field="*{email}"/></label>
+            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}">password Error</label>
+        </div>
+        <div>
+            <label> code:
+                <input type="text" name="code" value=""/>
+            </label>
+            <span class="btn btn-primary js-click-btn">Get the Code</span>
+        </div>
+        <div><input type="submit" value="Register"/></div>
+        <a th:href="@{/login}">Login</a>
+    </form>
+
+        <input type="text" name="email" value="18702879921@163.com"/>
+    </form>
+    <script type="text/javascript">
+        $(function () {
+            var setTime=null;
+            var time1=0;
+            $(".js-click-btn").on("click",function () {
+                if ($(this).attr("disabled")){
+                    return;
+                }
+                var $email= $("#email").val();
+                console.log($email);
+                if($email == null || typeof($email) == "undefined" || $email.trim() ==""){
+                    alert ("please input email!");
+                    return;
+                }
+                var $url="/demo/sendEmail"
+                $.ajax({
+                    type:"post",
+                    data:{"email":$email},
+                    url:$url,
+                    dataType:"json",
+                    success:function (data) {
+                        console.log("success")
+                    },
+                    error:(function () {
+                        console.log("error")
+                    })
+                });
+
+                time1 = 60;
+                $(this).text("(" + time1 + "秒)后获重新取验证码");
+                setTime=setInterval(function setTime(args) {
+                    time1--;
+                    $(".js-click-btn").text("(" + time1+ "秒)后获重新取验证码");
+                    if (time1 < 0) {
+                        $(".js-click-btn").text("重新发送验证码");
+                        $(".js-click-btn").removeAttr("disabled");
+                        clearInterval(setTime);
+                    }
+                },1000);
+                $(this).attr({"disabled":"disabled"});
+            });
+
+            function timer(){
+
+            }
+        });
+    </script>
+</body>
+</html>

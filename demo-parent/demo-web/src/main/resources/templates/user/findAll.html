@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script  type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script  type="text/javascript"th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+    <h1>User Info <a th:href="@{/index}">Click to home!</a></h1>
+     <li>
+        <table border="1">
+            <tr>
+                <th>id</th>
+                <th>Username</th>
+                <th>email</th>
+                <th>count</th>
+                <th>action</th>
+            </tr>
+            <tr th:each="user,userStat : ${users}">
+                <td th:text="${user.userId}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.email}"></td>
+                <th th:text="${userStat.count}">状态变量：count</th>
+                <th>
+                    <a th:href="@{/user/delete(userId=${user.userId})}"
+                       th:if="${user.username ne session.user.username}"
+                    >delete</a>
+                    <span  th:if="${user.username eq session.user.username}"
+                    >current user</span>
+                </th>
+            </tr>
+        </table>
+    </li>
+
+    <a th:href="@{/user/userInfoEdit}">Edit user Information</a>
+</body>
+</html>
